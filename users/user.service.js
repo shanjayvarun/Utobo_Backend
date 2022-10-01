@@ -13,10 +13,10 @@ module.exports = {
     delete: _delete
 };
 
-async function authenticate({ username, password }) {
-    const user = await User.findOne({ username });
-    if (user && bcrypt.compareSync(password, user.hash)) {
-        const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' });
+async function authenticate({ email, password }) {
+    const user = await User.findOne({ email });
+    if (user && bcrypt.compareSync(password, user.password)) {
+        const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '1d' });
         return {
             ...user.toJSON(),
             token
@@ -34,19 +34,20 @@ async function getById(id) {
 
 async function create(userParam) {
     // validate
-    if (await User.findOne({ username: userParam.username })) {
-        throw 'Username "' + userParam.username + '" is already taken';
+    if (await User.findOne({ email: userParam.email })) {
+        throw 'email is already taken';
     }
 
     const user = new User(userParam);
 
     // hash password
     if (userParam.password) {
-        user.hash = bcrypt.hashSync(userParam.password, 10);
+        user.password = bcrypt.hashSync(userParam.password, 10);
     }
 
     // save user
-    await user.save();
+   let result =  await user.save();
+   return result;
 }
 
 async function update(id, userParam) {
@@ -54,13 +55,13 @@ async function update(id, userParam) {
 
     // validate
     if (!user) throw 'User not found';
-    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
-        throw 'Username "' + userParam.username + '" is already taken';
+    if (user.email !== userParam.email && await User.findOne({ email: userParam.email })) {
+        throw 'email is already taken';
     }
 
     // hash password if it was entered
     if (userParam.password) {
-        userParam.hash = bcrypt.hashSync(userParam.password, 10);
+        userParam.password = bcrypt.hashSync(userParam.password, 10);
     }
 
     // copy userParam properties to user
