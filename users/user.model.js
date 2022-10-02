@@ -7,6 +7,7 @@ const schema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     phoneNumber : {type : String},
+    userId : {type : String, unique : true},
     createdDate: { type: Date, default: Date.now }
 });
 

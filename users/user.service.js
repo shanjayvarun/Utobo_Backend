@@ -16,7 +16,7 @@ module.exports = {
 async function authenticate({ email, password }) {
     const user = await User.findOne({ email });
     if (user && bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '1d' });
+        const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '9d' });
         return {
             ...user.toJSON(),
             token
@@ -37,6 +37,9 @@ async function create(userParam) {
     if (await User.findOne({ email: userParam.email })) {
         throw 'email is already taken';
     }
+
+    let counternumber = await User.find({ _id: { $exists: true } });
+    userParam.userId = counternumber.length;
 
     const user = new User(userParam);
 
