@@ -9,7 +9,9 @@
     },
     "scripts": {
         "start": "nodemon ./server.js",
-        "start:dev": "nodemon ./server.js"
+        "start:dev": "nodemon ./server.js",
+        "build": "ng build",
+        "watch": "ng build --watch --configuration development"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
