@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const User = db.User;
-var reftoken = require('rand-token')
+var reftoken = require('rand-token');
+const tokenList = {}
 
 module.exports = {
     authenticate,
@@ -19,10 +20,17 @@ async function authenticate({ email, password }) {
     if (user && bcrypt.compareSync(password, user.password)) {
         const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '9d' });
         const refreshToken = reftoken.uid(256)
+        const response = {
+            "status": "Logged in",
+            "token": token,
+            "refreshToken": refreshToken,
+        }
+        tokenList[refreshToken] = response
+        console.log(tokenList)
         return {
             ...user.toJSON(),
             token,
-            refreshToken
+            refreshToken,
         };
     }
 }
