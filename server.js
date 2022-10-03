@@ -19,6 +19,7 @@ app.use('/images', require('./images/image.controller'));
 
 // global error handler
 app.use(errorHandler);
+app.listen(process.env.PORT || 5000)
 
 // start server
 const port = process.env.NODE_ENV === 'staging' ? (process.env.PORT) : 4000;
