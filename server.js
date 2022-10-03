@@ -22,7 +22,7 @@ app.use(errorHandler);
 app.listen(process.env.PORT || 5000)
 
 // start server
-const port = process.env.NODE_ENV === 'staging' ? (process.env.PORT) : 4000;
+const port = process.env.NODE_ENV === 'production' ? (process.env.PORT) : 4000;
 const server = app.listen(port, function () {
     console.log('Server listening on port ' + port);
 });
