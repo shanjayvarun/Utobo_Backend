@@ -16,7 +16,15 @@ function getImages(req, res, next) {
     .catch((err) => next(err));
 }
 
+function _delete(req, res, next) {
+  imageService
+    ._delete(req.params.id)
+    .then(() => res.json({}))
+    .catch((err) => next(err));
+}
+
 router.post("/addImage", addImages);
 router.get("/getAllimages", getImages);
+router.delete("/:id", _delete);
 
 module.exports = router;

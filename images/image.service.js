@@ -33,7 +33,12 @@ async function getAllImages() {
   ]);
 }
 
+async function _delete(id) {
+  return await ImageDb.findByIdAndRemove(id);
+}
+
 module.exports = {
   newImage,
   getAllImages,
+  _delete
 };
