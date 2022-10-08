@@ -2,6 +2,9 @@ const db = require("_helpers/db");
 const ImageDb = db.Image;
 const UserDb = db.User;
 
+//one of the method of passing BASE64 code to Backend
+const imageToBase64 = require('image-to-base64');
+
 async function newImage(imageParam) {
   if (
     await ImageDb.findOne({

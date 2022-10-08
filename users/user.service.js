@@ -26,7 +26,7 @@ async function authenticate({ email, password }) {
             "refreshToken": refreshToken,
         }
         tokenList[refreshToken] = response
-        console.log(tokenList)
+
         return {
             ...user.toJSON(),
             token,
